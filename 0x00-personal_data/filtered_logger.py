@@ -20,12 +20,12 @@ class RedactingFormatter(logging.Formatter):
     FORMAT = "[HOLBERTON] %(name)s %(levelname)s %(asctime)-15s: %(message)s"
     SEPARATOR = ";"
 
-    def __init__(self, fields: List[str]):
+    def __init__(self, fields: List[str]) -> None:
         super(RedactingFormatter, self).__init__(self.FORMAT)
         self.__fields = fields
 
     def format(self, record: logging.LogRecord) -> str:
         """Filter values in incoming log records"""
         record.msg: str = filter_datum(self.__fields, self.REDACTION,
-                                  record.getMessage(), self.SEPARATOR)
+                                       record.getMessage(), self.SEPARATOR)
         return super().format(record)
