@@ -29,14 +29,20 @@ def get_logger() -> logging.Logger:
 
 def get_db() -> mysql.connector.connection.MySQLConnection:
     """Returns a connector to the database"""
-    kwargs = {
-        "host": os.getenv("PERSONAL_DATA_DB_HOST", "localhost"),
-        "database": os.getenv("PERSONAL_DATA_DB_NAME", "holberton"),
-        "user": os.getenv("PERSONAL_DATA_DB_USERNAME", "root"),
-        "password": os.getenv("PERSONAL_DATA_DB_PASSWORD", "")
-    }
-    connection = mysql.connector.connect(**kwargs)
-    return connection
+    db_username = os.getenv("PERSONAL_DATA_DB_USERNAME", "root")
+    db_password = os.getenv("PERSONAL_DATA_DB_PASSWORD", "")
+    db_host = os.getenv("PERSONAL_DATA_DB_HOST", "localhost")
+    db_name = os.getenv("PERSONAL_DATA_DB_NAME")
+    try:
+        connection = mysql.connector.connect(
+            user=db_username,
+            password=db_password,
+            host=db_host,
+            database=db_name
+        )
+        return connection
+    except mysql.connector.Error:
+        return None
 
 
 class RedactingFormatter(logging.Formatter):
