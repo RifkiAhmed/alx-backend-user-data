@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Module to return the log message obfuscated"""
 import logging
-from mysql.connector import MySQLConnection
+from mysql.connector import MySQLConnection, Error
 import os
 import re
 from typing import List
@@ -35,8 +35,11 @@ def get_db() -> MySQLConnection:
         "user": os.getenv("PERSONAL_DATA_DB_USERNAME", "root"),
         "password": os.getenv("PERSONAL_DATA_DB_PASSWORD", "")
     }
-    connection = MySQLConnection(**kwargs)
-    return connection
+    try:
+        connection = MySQLConnection(**kwargs)
+        return connection
+    except Exception:
+        return None
 
 
 class RedactingFormatter(logging.Formatter):
