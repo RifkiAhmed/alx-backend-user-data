@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """Module to return the log message obfuscated"""
 import logging
+import mysql.connector
+import os
 import re
 from typing import List
 
@@ -17,12 +19,23 @@ def filter_datum(fields: List[str], redaction: str, message: str,
 def get_logger() -> logging.Logger:
     """Return a Logger object"""
     logger = logging.getLogger("user_data", 20)
-    # logger.setLevel(logging.INFO)
     logger.propagate = False
     handler = logging.StreamHandler()
     handler.setFormatter(RedactingFormatter())
     logger.addHandler(handler)
     return logger
+
+
+def get_db():
+    """Returns a connector to the database"""
+    kwargs = {
+        "host": os.getenv("PERSONAL_DATA_DB_HOST"),
+        "database": os.getenv("PERSONAL_DATA_DB_NAME"),
+        "user": os.getenv("PERSONAL_DATA_DB_USERNAME"),
+        "password": os.getenv("PERSONAL_DATA_DB_PASSWORD")
+    }
+    connection = mysql.connector.connect(**kwargs)
+    return connection
 
 
 class RedactingFormatter(logging.Formatter):
