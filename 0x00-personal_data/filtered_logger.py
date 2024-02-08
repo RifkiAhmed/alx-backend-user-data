@@ -35,8 +35,11 @@ def get_db() -> MySQLConnection:
         "user": os.getenv("PERSONAL_DATA_DB_USERNAME", "root"),
         "password": os.getenv("PERSONAL_DATA_DB_PASSWORD", "")
     }
-    connection = MySQLConnection(**kwargs)
-    return connection
+    try:
+        connection = MySQLConnection(**kwargs)
+        return connection
+    except Error:
+        return None
 
 
 class RedactingFormatter(logging.Formatter):
