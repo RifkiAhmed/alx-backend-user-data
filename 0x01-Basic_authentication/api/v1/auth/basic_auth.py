@@ -61,5 +61,5 @@ class BasicAuth(Auth):
                 if user.is_valid_password(pwd=user_pwd):
                     return user
             return None
-        except (IndexError, ValueError):
+        except (KeyError):
             return None
