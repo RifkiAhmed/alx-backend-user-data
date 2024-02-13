@@ -14,7 +14,7 @@ class Auth:
         """
         if path and not path.endswith('/'):
             path += "/"
-        if path in excluded_paths:
+        if excluded_paths and path in excluded_paths:
             return False
         return False
 
