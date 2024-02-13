@@ -43,8 +43,10 @@ class BasicAuth(Auth):
         if not isinstance(decoded_base64_authorization_header, str):
             return (None, None)
         user_credentials = decoded_base64_authorization_header.split(':')
-        if len(user_credentials) == 2:
-            return (user_credentials[0], user_credentials[1])
+        if len(user_credentials) >= 2:
+            user_email = user_credentials[0]
+            user_pwd = (':').join(user_credentials[1:])
+            return (user_email, user_pwd)
         return (None, None)
 
     def user_object_from_credentials(
