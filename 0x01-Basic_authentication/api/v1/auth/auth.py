@@ -16,10 +16,14 @@ class Auth:
             path += "/"
         if excluded_paths and path in excluded_paths:
             return False
+        if excluded_paths and any(excluded_path.endswith('*')
+                                  and path.startswith(excluded_path[:-1])
+                                  for excluded_path in excluded_paths):
+            return False
         return True
 
     def authorization_header(self, request=None) -> str:
-        """ Return None
+        """ Return the request header key Authorization value
         """
         authorization_header = request.headers.get("Authorization")
         if authorization_header:
