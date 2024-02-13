@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if [ "$#" -ne 2 ]; then
+	echo "Usage: $0 <file-to-add> <commit-message>"
+	exit 1
+fi
+
+git add "$1"; git commit -m "$2"; git push
