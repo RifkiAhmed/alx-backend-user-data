@@ -43,8 +43,8 @@ def login():
                  methods=['DELETE'],
                  strict_slashes=False)
 def logout():
-    """ POST /api/v1/auth_session/login
-    User login
+    """ DELETE /api/v1/auth_session/login
+    User logout
     """
     from api.v1.app import auth
     if not auth.destroy_session(request):
