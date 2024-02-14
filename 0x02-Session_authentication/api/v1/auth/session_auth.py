@@ -37,3 +37,14 @@ class SessionAuth(Auth):
             return User.get(id=user_id)
         except KeyError:
             return None
+
+    def destroy_session(self, request=None):
+        """ Logout the user
+        """
+        if not request:
+            return False
+        _my_session_id = self.session_cookie(request)
+        if not _my_session_id:
+            return False
+        del self.user_id_by_session_id[_my_session_id]
+        return True
