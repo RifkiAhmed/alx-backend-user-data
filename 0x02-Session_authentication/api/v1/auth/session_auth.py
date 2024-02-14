@@ -3,7 +3,7 @@
 """
 from api.v1.auth.auth import Auth
 from models.user import User
-from typing import TypeVar
+from typing import Bool, TypeVar
 import uuid
 
 
@@ -38,13 +38,15 @@ class SessionAuth(Auth):
         except KeyError:
             return None
 
-    def destroy_session(self, request=None):
+    def destroy_session(self, request=None) -> Bool:
         """ Logout the user
         """
         if not request:
             return False
         _my_session_id = self.session_cookie(request)
         if not _my_session_id:
+            return False
+        if not self.user_id_for_session_id(session_id=_my_session_id):
             return False
         del self.user_id_by_session_id[_my_session_id]
         return True
