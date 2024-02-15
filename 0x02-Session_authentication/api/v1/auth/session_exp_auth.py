@@ -45,7 +45,8 @@ class SessionExpAuth(SessionAuth):
         created_at = session_data.get("created_at")
         if not created_at:
             return None
-        expiry_datetime = created_at + timedelta(seconds=self.session_duration)
-        if expiry_datetime < datetime.now():
-            return None
+        # expiry_datetime = created_at +
+        # timedelta(seconds=self.session_duration)
+        # if expiry_datetime < datetime.now():
+        #    return None
         return user_id
