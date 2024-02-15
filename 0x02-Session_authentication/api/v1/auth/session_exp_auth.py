@@ -13,7 +13,7 @@ class SessionExpAuth(SessionAuth):
     def __init__(self):
         """ Initialize a new SessionExpAuth instance
         """
-        session_duration = os.getenv("SESSION_DURATION", "0")
+        session_duration = os.getenv("SESSION_DURATION", 0)
         try:
             self.session_duration = int(session_duration)
         except ValueError:
@@ -45,8 +45,7 @@ class SessionExpAuth(SessionAuth):
         created_at = session_data.get("created_at")
         if not created_at:
             return None
-        # expiry_datetime = created_at +
-        # timedelta(seconds=self.session_duration)
-        # if expiry_datetime < datetime.now():
-        #    return None
+        expiry_datetime = created_at + timedelta(seconds=self.session_duration)
+        if expiry_datetime < datetime.now():
+            return None
         return user_id
