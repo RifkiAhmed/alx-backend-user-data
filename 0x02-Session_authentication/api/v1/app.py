@@ -9,14 +9,19 @@ from flask_cors import (CORS, cross_origin)
 from api.v1.auth.auth import Auth
 from api.v1.auth.basic_auth import BasicAuth
 from api.v1.auth.session_auth import SessionAuth
+from api.v1.auth.session_exp_auth import SessionExpAuth
+from api.v1.auth.session_db_auth import SessionDBAuth
 
 app = Flask(__name__)
 app.register_blueprint(app_views)
 CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 auth = None
 
-
-if getenv("AUTH_TYPE") == "session_auth":
+if getenv("AUTH_TYPE") == "session_db_auth":
+    auth = SessionDBAuth()
+elif getenv("AUTH_TYPE") == "session_exp_auth":
+    auth = SessionExpAuth()
+elif getenv("AUTH_TYPE") == "session_auth":
     auth = SessionAuth()
 elif getenv("AUTH_TYPE") == "basic_auth":
     auth = BasicAuth()
@@ -67,4 +72,4 @@ def not_found(error) -> str:
 if __name__ == "__main__":
     host = getenv("API_HOST", "0.0.0.0")
     port = getenv("API_PORT", "5000")
-    app.run(host=host, port=port)
+    app.run(debug=True, host=host, port=port)
