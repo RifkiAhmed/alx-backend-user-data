@@ -30,7 +30,7 @@ class DB:
             self.__session = DBSession()
         return self.__session
 
-    def add_user(self, email: str, hashed_password: str) -> TypeVar("User"):
+    def add_user(self, email: str, hashed_password: str) -> User:
         """Add User object to the database
         Return
         - User object
@@ -40,7 +40,7 @@ class DB:
         self._session.commit()
         return user
 
-    def find_user_by(self, **key: dict) -> TypeVar("User"):
+    def find_user_by(self, **key: dict) -> User:
         """Returns User object based on the key argument
         """
         user = self._session.query(User).filter_by(**key).first()
@@ -48,7 +48,7 @@ class DB:
             raise NoResultFound
         return user
 
-    def update_user(self, user_id: int, **kwargs: dict) -> TypeVar("User"):
+    def update_user(self, user_id: int, **kwargs: dict) -> User:
         """Updates a User object with the user_id
         """
         try:
