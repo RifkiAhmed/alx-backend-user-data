@@ -6,6 +6,7 @@ from db import DB
 from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.exc import InvalidRequestError
 from typing import TypeVar
+from user import User
 import uuid
 
 
@@ -32,7 +33,7 @@ class Auth:
         """
         self._db = DB()
 
-    def register_user(self, email: str, password: str) -> TypeVar("User"):
+    def register_user(self, email: str, password: str) -> User:
         """Registers a new user into the database
         """
         try:
