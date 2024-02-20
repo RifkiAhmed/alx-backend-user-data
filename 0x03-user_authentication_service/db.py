@@ -5,7 +5,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
 from sqlalchemy.orm.exc import NoResultFound
-from typing import TypeVar
+from typing import Any
 from user import Base, User
 
 
@@ -40,7 +40,7 @@ class DB:
         self._session.commit()
         return user
 
-    def find_user_by(self, **key: dict) -> User:
+    def find_user_by(self, **key: Any) -> User:
         """Returns User object based on the key argument
         """
         user = self._session.query(User).filter_by(**key).first()
