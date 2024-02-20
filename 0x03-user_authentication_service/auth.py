@@ -5,7 +5,6 @@ import bcrypt
 from db import DB
 from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.exc import InvalidRequestError
-from typing import TypeVar
 from user import User
 import uuid
 
@@ -64,7 +63,7 @@ class Auth:
         except (NoResultFound, InvalidRequestError):
             return None
 
-    def get_user_from_session_id(self, session_id: str) -> TypeVar("User"):
+    def get_user_from_session_id(self, session_id: str) -> User:
         """Returns a user based on it's session id
         """
         try:
