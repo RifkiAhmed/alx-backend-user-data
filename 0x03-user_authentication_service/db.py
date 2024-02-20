@@ -48,14 +48,17 @@ class DB:
             raise NoResultFound
         return user
 
-    def update_user(self, user_id: int, **kwargs: dict) -> User:
+    def update_user(self, user_id: int, **kwargs) -> None:
         """Updates a User object with the user_id
         """
         try:
             user = self.find_user_by(id=user_id)
             if user:
                 for key, value in kwargs.items():
-                    setattr(user, key, value)
+                    if key in user.__dict__:
+                        setattr(user, key, value)
+                    else:
+                        raise ValueError
             return None
         except NoResultFound:
             return None
