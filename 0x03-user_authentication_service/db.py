@@ -40,10 +40,10 @@ class DB:
         self._session.commit()
         return user
 
-    def find_user_by(self, **key: Any) -> User:
+    def find_user_by(self, **kwargs: dict) -> User:
         """Returns User object based on the key argument
         """
-        user = self._session.query(User).filter_by(**key).first()
+        user = self._session.query(User).filter_by(**kwargs).one()
         if not user:
             raise NoResultFound
         return user
