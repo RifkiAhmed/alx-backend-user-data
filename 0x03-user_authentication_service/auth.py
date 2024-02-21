@@ -81,14 +81,23 @@ class Auth:
             return None
         return user
 
+    # def destroy_session(self, user_id: int) -> None:
+    #     """Destroys a user session
+    #     """
+    #     try:
+    #         user = self._db.find_user_by(id=user_id)
+    #         return self._db.update_user(user.id, session_id=None)
+    #     except (NoResultFound, InvalidRequestError):
+    #         return None
+
     def destroy_session(self, user_id: int) -> None:
-        """Destroys a user session
-        """
+        """Destroy the session for the user with the given user_id."""
         try:
             user = self._db.find_user_by(id=user_id)
-            return self._db.update_user(user.id, session_id=None)
-        except (NoResultFound, InvalidRequestError):
+        except NoResultFound:
             return None
+        user.session_id = None
+        self._db._session.commit()
 
     # def get_reset_password_token(self, email: str) -> str:
     #     """Generates reset password token
