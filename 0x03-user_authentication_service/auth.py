@@ -63,71 +63,32 @@ class Auth:
         except (NoResultFound, InvalidRequestError):
             return None
 
-    # def get_user_from_session_id(self, session_id: str) -> User:
-    #     """Returns a user based on it's session id
-    #     """
-    #     try:
-    #         return self._db.find_user_by(session_id=session_id)
-    #     except (NoResultFound, InvalidRequestError):
-    #         return None
-
-    def get_user_from_session_id(self, session_id: str) -> User or None:
-        """Get the user corresponding to the provided session ID."""
-        if session_id is None:
-            return None
+    def get_user_from_session_id(self, session_id: str) -> User:
+        """Returns a user based on it's session id
+        """
         try:
-            user = self._db.find_user_by(session_id=session_id)
-        except NoResultFound:
+            return self._db.find_user_by(session_id=session_id)
+        except (NoResultFound, InvalidRequestError):
             return None
-        return user
-
-    # def destroy_session(self, user_id: int) -> None:
-    #     """Destroys a user session
-    #     """
-    #     try:
-    #         user = self._db.find_user_by(id=user_id)
-    #         return self._db.update_user(user.id, session_id=None)
-    #     except (NoResultFound, InvalidRequestError):
-    #         return None
 
     def destroy_session(self, user_id: int) -> None:
-        """Destroy the session for the user with the given user_id."""
+        """Destroys a user session
+        """
         try:
             user = self._db.find_user_by(id=user_id)
-        except NoResultFound:
+            return self._db.update_user(user.id, session_id=None)
+        except (NoResultFound, InvalidRequestError):
             return None
-        user.session_id = None
-        self._db._session.commit()
-
-    # def get_reset_password_token(self, email: str) -> str:
-    #     """Generates reset password token
-    #     """
-    #     try:
-    #         user = self._db.find_user_by(email=email)
-    #         token = _generate_uuid()
-    #         self._db.update_user(user.id, reset_token=token)
-    #         return token
-    #     except (NoResultFound, InvalidRequestError):
-    #         raise ValueError
 
     def get_reset_password_token(self, email: str) -> str:
-        """Get reset token
-
-        Args:
-            email (str): user email
-        Returns:
-            str: reset token
+        """Generates reset password token
         """
         try:
             user = self._db.find_user_by(email=email)
-            # if not user:
-            #    raise ValueError
-
-            reset_token = _generate_uuid()
-            self._db.update_user(user.id, reset_token=reset_token)
-
-            return reset_token
-        except NoResultFound:
+            token = _generate_uuid()
+            self._db.update_user(user.id, reset_token=token)
+            return token
+        except (NoResultFound, InvalidRequestError):
             raise ValueError
 
     def update_password(self, reset_token: str, password: str) -> None:
