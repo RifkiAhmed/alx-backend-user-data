@@ -121,7 +121,7 @@ app = Flask(__name__)
 AUTH = Auth()
 
 
-@app.route("/")
+@app.route("/", methods=["GET"])
 def welcome():
     """GET route to return a JSON payload."""
     return jsonify({"message": "Bienvenue"})
