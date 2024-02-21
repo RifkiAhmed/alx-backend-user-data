@@ -59,7 +59,7 @@ def logout() -> None:
 
 
 @app.route("/profile", methods=["GET"])
-def profile() -> str:
+def profile():  # -> str:
     """User profile
     """
     user = None
