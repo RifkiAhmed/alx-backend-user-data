@@ -63,13 +63,23 @@ class Auth:
         except (NoResultFound, InvalidRequestError):
             return None
 
-    def get_user_from_session_id(self, session_id: str) -> User:
-        """Returns a user based on it's session id
-        """
-        try:
-            return self._db.find_user_by(session_id=session_id)
-        except (NoResultFound, InvalidRequestError):
+    # def get_user_from_session_id(self, session_id: str) -> User:
+    #     """Returns a user based on it's session id
+    #     """
+    #     try:
+    #         return self._db.find_user_by(session_id=session_id)
+    #     except (NoResultFound, InvalidRequestError):
+    #         return None
+
+    def get_user_from_session_id(self, session_id: str) -> User or None:
+        """Get the user corresponding to the provided session ID."""
+        if session_id is None:
             return None
+        try:
+            user = self._db.find_user_by(session_id=session_id)
+        except NoResultFound:
+            return None
+        return user
 
     def destroy_session(self, user_id: int) -> None:
         """Destroys a user session
