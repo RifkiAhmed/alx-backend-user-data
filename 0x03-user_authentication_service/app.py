@@ -113,7 +113,7 @@
 # if __name__ == "__main__":
 #     app.run(debug=True, host="0.0.0.0", port="5000")
 """Flask app module"""
-from flask import Flask, request, jsonify, make_response, abort
+from flask import Flask, request, jsonify, make_response, abort, redirect
 from auth import Auth
 
 
@@ -121,7 +121,7 @@ app = Flask(__name__)
 AUTH = Auth()
 
 
-@app.route("/", methods=["GET"])
+@app.route("/")
 def welcome():
     """GET route to return a JSON payload."""
     return jsonify({"message": "Bienvenue"})
