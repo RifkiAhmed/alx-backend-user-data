@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+'''User model'''
 # """SQLAlchemy model
 # """
 # from sqlalchemy import Column, Integer, String
@@ -16,7 +17,6 @@
 #     hashed_password = Column(String(250), nullable=False)
 #     session_id = Column(String(250), nullable=True)
 #     reset_token = Column(String(250), nullable=True)
-'''User model'''
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 
