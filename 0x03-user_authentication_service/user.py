@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-'''User model'''
+"""User model
+"""
 # """SQLAlchemy model
 # """
 # from sqlalchemy import Column, Integer, String
